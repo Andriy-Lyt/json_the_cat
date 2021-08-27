@@ -1,37 +1,39 @@
 const request = require('request');
-// console.log(request);
-const breed = process.argv[2];
 
- request(`https://api.thecatapi.com/v1/breeds/search?q=${breed}`, (error, response, body) => {
-  // console.log('statusCode:', response.statusCode);
-  // console.log('body.length: ', body.length);
-  // for (const elem of body) {
-  //   console.log('elem: ', elem ); 
-  // }
-  if (error !== null) { 
-    console.log('Incorrect URL address provided.\n\n ', error) ;
-    return;
-  }; 
+const fetchBreedDescription = function(breedName, cb) {
+  // console.log("breedName: ", breedName);
 
-  if (body.length === 2) {
-    console.log("invalid breed name provided");
-    return;
-  }
-  // print(typeof body);
-  // print(body);
-  const parsedData =  parse(body);
-  // print(typeof parsedData);
-  print(parsedData[0].description);
-  // print(parsedData[0]);
-});
+  const url = `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`;
 
-function print(data) {
-  console.log(data);
+  request(url, (error, response, body) => {
+
+    cb(error, body);
+                                      
+  }); //closing request () 
+}; // closing fetchBreedDescription()
+
+
+module.exports = {
+  fetchBreedDescription
 }
-function parse(data) {
-  return (JSON.parse(data));
-}
- 
+
+//Tests
+// console.log("parsedData : ",  parsedData);
+// console.log(parsedData[0].description);
+// console.log("parsed length: ", parsedData.length);
+// console.log("body: ", body);
+// console.log('body.length: ', body.length);
+// console.log('parsedData: ', parsedData);
+// console.log('body: ', body);
+// console.log(typeof parsedData);
+// console.log('statusCode:', response.statusCode);
+// console.log('body.length: ', body.length);
+// for (const elem of body) {
+//   console.log('elem: ', elem ); 
+// }
+// console.log(typeof body); // print(body);
+
+ //example object:
 /* let data =
 [{
   "weight": {
